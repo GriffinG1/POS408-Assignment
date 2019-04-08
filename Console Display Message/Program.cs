@@ -14,10 +14,10 @@ namespace ConsoleApp1
             Console.WriteLine("What's your name?"); 
             string name = Console.ReadLine();
             Console.WriteLine("What's your zip code?"); 
-            int zipCode = int.Parse(Console.ReadLine()); // Takes user's zip code, attempts to convert it to int, and assigns it to int zipCode if successful
+            string zipCode = Console.ReadLine();
             Console.WriteLine("What's your gross monthly pay?");
-            int grossPay = int.Parse(Console.ReadLine()); // Takes user's gross monthly pay, attempts to convert it to int, and assigns it to int grossPay if successful
-            double taxes = Convert.ToDouble(grossPay) * 0.07; // Computes user's monthly taxes by taking 7% of user's gross monthly pay
+            double grossPay = double.Parse(Console.ReadLine()); // Takes user's gross monthly pay, attempts to convert it to double, and assigns it to grossPay if successful
+            double taxes = grossPay * 0.07; // Computes user's monthly taxes by taking 7% of user's gross monthly pay
             Console.WriteLine($"Name: {name}"); 
             Console.WriteLine($"Zip code: {zipCode}"); 
             Console.WriteLine($"Gross monthly pay: {grossPay}");
