@@ -24,6 +24,7 @@ namespace ConsoleApp1
             Console.WriteLine($"Gross monthly pay: ${grossPay}");
             Console.WriteLine($"Monthly taxes: ${taxes}"); 
             Console.WriteLine("Press the enter key to close the program.");
+            Console.ReadLine();
         }
     }
 }
