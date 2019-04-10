@@ -25,8 +25,8 @@ namespace ConsoleApp1
                 dev.SetZipCode(Console.ReadLine());
                 Console.WriteLine($"Gross monthly pay for dev #{i}:");
                 Console.Write("$");
-                decimal grossPay;
-                bool hasPay = decimal.TryParse(Console.ReadLine(), out grossPay); // Prevents a crash if user inputs no data
+                double grossPay;
+                bool hasPay = double.TryParse(Console.ReadLine(), out grossPay); // Prevents a crash if user inputs no data
                 if (hasPay)
                 {
                     dev.SetPay(grossPay);
@@ -49,18 +49,18 @@ namespace ConsoleApp1
     {
         private string name;
         private string zipCode;
-        private decimal grossPay;
-        private decimal taxes;
-        private static decimal taxRate = 0.07M;
+        private double grossPay;
+        private double taxes;
+        private static double taxRate = 0.07;
 
         public SoftwareDeveloper() { }
 
-        public SoftwareDeveloper(string name, string zipCode, decimal grossPay)
+        public SoftwareDeveloper(string name, string zipCode, double grossPay)
         {
             this.name = name;
             this.zipCode = zipCode;
             this.grossPay = grossPay;
-            taxes = Decimal.Multiply(grossPay, taxRate);
+            taxes = grossPay * taxRate;
         }
 
         public string GetName()
@@ -107,10 +107,10 @@ namespace ConsoleApp1
             }
         }
 
-        public void SetPay(decimal grossPay)
+        public void SetPay(double grossPay)
         {
             this.grossPay = grossPay;
-            taxes = Decimal.Multiply(grossPay, taxRate); // Multiplies grossPay by the static decimal taxRate to get the dev's monthly taxes
+            taxes = grossPay * taxRate; // Multiplies grossPay by taxRate to get the dev's monthly taxes
         }
 
         public void PrintData() // Outputs all the data in a clean block
