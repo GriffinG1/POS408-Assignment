@@ -24,7 +24,6 @@ namespace ConsoleApp1
                 Console.WriteLine($"Zip code for dev #{i}:");
                 dev.SetZipCode(Console.ReadLine());
                 Console.WriteLine($"Gross monthly pay for dev #{i}:");
-                Console.Write("$");
                 double grossPay;
                 bool hasPay = double.TryParse(Console.ReadLine(), out grossPay); // Prevents a crash if user inputs no data
                 if (hasPay)
@@ -82,6 +81,16 @@ namespace ConsoleApp1
         {
             return string.Format("{0:C}", taxes); // returns taxes as a currency
         }
+        
+        public string GetAnnualPay()
+        {
+            return string.Format("{0:C}", grossPay * 12); // returns grossPay * 12 as a currency
+        }
+
+        public string GetAnnualTaxes()
+        {
+            return string.Format("{0:C}", taxes * 12); // returns taxes * 12 as a currency
+        }
 
         public void SetName(string name)
         {
@@ -109,8 +118,16 @@ namespace ConsoleApp1
 
         public void SetPay(double grossPay)
         {
-            this.grossPay = grossPay;
-            taxes = grossPay * taxRate; // Multiplies grossPay by taxRate to get the dev's monthly taxes
+            if (grossPay == 0)
+            {
+                this.grossPay = 0;
+                taxes = 0;
+            }
+            else
+            {
+                this.grossPay = grossPay;
+                taxes = grossPay * taxRate; // Multiplies grossPay by taxRate to get the dev's monthly taxes
+            }
         }
 
         public void PrintData() // Outputs all the data in a clean block
@@ -118,7 +135,9 @@ namespace ConsoleApp1
             Console.WriteLine($"Name: {GetName()}");
             Console.WriteLine($"Zip code: {GetZipCode()}");
             Console.WriteLine($"Gross monthly pay: {GetPay()}");
-            Console.WriteLine($"Monthly taxes: {GetTaxes()}\n");
+            Console.WriteLine($"Monthly taxes: {GetTaxes()}");
+            Console.WriteLine($"Gross annual pay: {GetAnnualPay()}");
+            Console.WriteLine($"Annual taxes: {GetAnnualTaxes()}\n");
         }
     }
 }
