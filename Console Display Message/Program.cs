@@ -14,9 +14,10 @@ namespace ConsoleApp1
             int TOTAL_DEVS = 3;
 
             Console.WriteLine("Welcome!\n");
+            
+            Dictionary<int, SoftwareDeveloper> devs = new Dictionary<int, SoftwareDeveloper>();
 
-            List<SoftwareDeveloper> devs = new List<SoftwareDeveloper>();
-            for (int i = 1; i <= TOTAL_DEVS; i++) // Fills the List devs with a TOTAL_DEVS amount of SoftwareDeveloper objects, while taking inputs for them
+            for (int i = 1; i <= TOTAL_DEVS; i++) // Fills the Dict devs with a TOTAL_DEVS amount of SoftwareDeveloper objects, while taking inputs for them
             {
                 SoftwareDeveloper dev = new SoftwareDeveloper();
                 Console.WriteLine($"Name for dev #{i}:");
@@ -30,13 +31,13 @@ namespace ConsoleApp1
                 {
                     dev.SetPay(grossPay);
                 }
-                devs.Add(dev);
+                devs.Add(i, dev);
                 Console.WriteLine();
                 
             }
-            foreach (SoftwareDeveloper dev in devs)
+            for (int i = 1; i <= TOTAL_DEVS; i++)
             {
-                dev.PrintData();
+                devs[i].PrintData();
             }
             
             Console.WriteLine("Press the enter key to close the program.");
