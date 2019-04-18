@@ -11,7 +11,7 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             // Sets total devs for the program to use.
-            int TOTAL_DEVS = 1;
+            int TOTAL_DEVS = 3;
 
             Console.WriteLine("Welcome!\n");
             
@@ -30,9 +30,9 @@ namespace ConsoleApp1
                 dev.SetName(name);
                 Console.WriteLine($"Zip code for dev #{i}:");
                 string zipCode = Console.ReadLine();
-                while (zipCode == "") // Loops until user enters a zip code
+                while (zipCode.Length < 5) // Loops until user enters a zip code greater than or equal to 5 characters
                 {
-                    Console.WriteLine($"Error, you must enter a zip code.\nZip code for dev #{i}:");
+                    Console.WriteLine($"Error, you must enter a valid zip code.\nZip code for dev #{i}:");
                     zipCode = Console.ReadLine();
                 }
                 dev.SetZipCode(zipCode);
@@ -98,7 +98,7 @@ namespace ConsoleApp1
 
         public string GetTaxType()
         {
-            return taxType;
+            return taxType.ToUpper();
         }
 
         public string GetPay()
