@@ -11,7 +11,7 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             // Sets total devs for the program to use.
-            int TOTAL_DEVS = 3;
+            int TOTAL_DEVS = 1;
 
             Console.WriteLine("Welcome!\n");
             
@@ -21,16 +21,38 @@ namespace ConsoleApp1
             {
                 SoftwareDeveloper dev = new SoftwareDeveloper();
                 Console.WriteLine($"Name for dev #{i}:");
-                dev.SetName(Console.ReadLine());
+                string name = Console.ReadLine();
+                while (name == "") // Loops until user enters a name
+                {
+                    Console.WriteLine($"Error, you must enter a name.\nName for dev #{i}:");
+                    name = Console.ReadLine();
+                }
+                dev.SetName(name);
                 Console.WriteLine($"Zip code for dev #{i}:");
-                dev.SetZipCode(Console.ReadLine());
+                string zipCode = Console.ReadLine();
+                while (zipCode == "") // Loops until user enters a zip code
+                {
+                    Console.WriteLine($"Error, you must enter a zip code.\nZip code for dev #{i}:");
+                    zipCode = Console.ReadLine();
+                }
+                dev.SetZipCode(zipCode);
                 Console.WriteLine($"Gross monthly pay for dev #{i}:");
                 double grossPay;
-                bool hasPay = double.TryParse(Console.ReadLine(), out grossPay); // Prevents a crash if user inputs no data
-                if (hasPay)
+                bool hasPay = double.TryParse(Console.ReadLine(), out grossPay);
+                while (!hasPay) // Loops until user enters valid pay
                 {
-                    dev.SetPay(grossPay);
+                    Console.WriteLine($"Error, you must enter a valid number.\nGross monthly pay for dev #{i}:");
+                    hasPay = double.TryParse(Console.ReadLine(), out grossPay);
                 }
+                dev.SetPay(grossPay);
+                Console.WriteLine($"W2 or 1099 for dev #{i}:");
+                string taxType = Console.ReadLine();
+                while (!(taxType.ToLower() == "w2") && !(taxType == "1099")) // Loops until user enters valid employee type
+                {
+                    Console.WriteLine($"Error, you must enter a valid type.\nW2 or 1099 for dev #{i}:");
+                    taxType = Console.ReadLine();
+                }
+                dev.SetTaxType(taxType);
                 devs.Add(i, dev);
                 Console.WriteLine();
                 
@@ -49,6 +71,7 @@ namespace ConsoleApp1
     {
         private string name;
         private string zipCode;
+        private string taxType;
         private double grossPay;
         private double taxes;
         private static double taxRate = 0.07;
@@ -73,6 +96,11 @@ namespace ConsoleApp1
             return zipCode;
         }
 
+        public string GetTaxType()
+        {
+            return taxType;
+        }
+
         public string GetPay()
         {
             return string.Format("{0:C}", grossPay); // returns grossPay as a currency
@@ -81,6 +109,12 @@ namespace ConsoleApp1
         public string GetTaxes()
         {
             return string.Format("{0:C}", taxes); // returns taxes as a currency
+        }
+
+        public string GetNetPay()
+        {
+            double netPay = grossPay - taxes;
+            return string.Format("{0:C}", netPay); // returns netPay as a currency
         }
         
         public string GetAnnualPay()
@@ -93,41 +127,34 @@ namespace ConsoleApp1
             return string.Format("{0:C}", taxes * 12); // returns taxes * 12 as a currency
         }
 
+        public string GetAnnualNetPay()
+        {
+            double netPay = (grossPay * 12) - (taxes * 12);
+            return string.Format("{0:C}", netPay); // returns netPay as a currency
+        }
+
         public void SetName(string name)
         {
-            if (name == "") // Allows clean output if no data is set
-            {
-                this.name = "N/A";
-            }
-            else
-            {
-                this.name = name;
-            }
+            this.name = name;
         }
 
         public void SetZipCode(string zipCode)
         {
-            if (zipCode == "") // Allows clean output if no data is set
-            {
-                this.zipCode = "N/A";
-            }
-            else
-            {
-                this.zipCode = zipCode;
-            }
+            this.zipCode = zipCode;
         }
 
         public void SetPay(double grossPay)
         {
-            if (grossPay == 0)
+            this.grossPay = grossPay;
+            taxes = grossPay * taxRate; // Multiplies grossPay by taxRate to get the dev's monthly taxes
+        }
+
+        public void SetTaxType(string taxType)
+        {
+            this.taxType = taxType;
+            if (taxType == "1099")
             {
-                this.grossPay = 0;
                 taxes = 0;
-            }
-            else
-            {
-                this.grossPay = grossPay;
-                taxes = grossPay * taxRate; // Multiplies grossPay by taxRate to get the dev's monthly taxes
             }
         }
 
@@ -135,10 +162,13 @@ namespace ConsoleApp1
         {
             Console.WriteLine($"Name: {GetName()}");
             Console.WriteLine($"Zip code: {GetZipCode()}");
+            Console.WriteLine($"Employee type: {GetTaxType()}");
             Console.WriteLine($"Gross monthly pay: {GetPay()}");
             Console.WriteLine($"Monthly taxes: {GetTaxes()}");
+            Console.WriteLine($"Monthly net pay: {GetNetPay()}");
             Console.WriteLine($"Gross annual pay: {GetAnnualPay()}");
-            Console.WriteLine($"Annual taxes: {GetAnnualTaxes()}\n");
+            Console.WriteLine($"Annual taxes: {GetAnnualTaxes()}");
+            Console.WriteLine($"Annual net pay: {GetAnnualNetPay()}\n");
         }
     }
 }
