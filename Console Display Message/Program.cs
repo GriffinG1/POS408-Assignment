@@ -24,7 +24,7 @@ namespace ConsoleApp1
                 string name = Console.ReadLine();
                 while (name == "") // Loops until user enters a name
                 {
-                    Console.WriteLine($"Error, you must enter a name.\nName for dev #{i}:");
+                    Console.WriteLine($"Name for dev #{i}:");
                     name = Console.ReadLine();
                 }
                 dev.SetName(name);
@@ -32,27 +32,27 @@ namespace ConsoleApp1
                 string zipCode = Console.ReadLine();
                 while (zipCode.Length < 5) // Loops until user enters a zip code greater than or equal to 5 characters
                 {
-                    Console.WriteLine($"Error, you must enter a valid zip code.\nZip code for dev #{i}:");
+                    Console.WriteLine($"Zip code for dev #{i}:");
                     zipCode = Console.ReadLine();
                 }
                 dev.SetZipCode(zipCode);
                 Console.WriteLine($"Gross monthly pay for dev #{i}:");
                 double grossPay;
                 bool hasPay = double.TryParse(Console.ReadLine(), out grossPay);
-                while (!hasPay) // Loops until user enters valid pay
+                while (!hasPay || grossPay < 0) // Loops until user enters a valid pay amount
                 {
-                    Console.WriteLine($"Error, you must enter a valid number.\nGross monthly pay for dev #{i}:");
+                    Console.WriteLine($"Gross monthly pay for dev #{i}:");
                     hasPay = double.TryParse(Console.ReadLine(), out grossPay);
                 }
                 dev.SetPay(grossPay);
-                Console.WriteLine($"W2 or 1099 for dev #{i}:");
+                Console.WriteLine($"Employee type - 1)W2 or 2)1099 - for dev #{i}:");
                 string taxType = Console.ReadLine();
-                while (!(taxType.ToLower() == "w2") && !(taxType == "1099")) // Loops until user enters valid employee type
+                while (!(taxType == "1") && !(taxType == "2")) // Loops until user enters valid employee type choice
                 {
-                    Console.WriteLine($"Error, you must enter a valid type.\nW2 or 1099 for dev #{i}:");
+                    Console.WriteLine($"Employee type - 1)W2 or 2)1099 - for dev #{i}:");
                     taxType = Console.ReadLine();
                 }
-                dev.SetTaxType(taxType);
+                if (taxType == "1") dev.SetTaxType("W2"); else dev.SetTaxType("1099");
                 devs.Add(i, dev);
                 Console.WriteLine();
                 
