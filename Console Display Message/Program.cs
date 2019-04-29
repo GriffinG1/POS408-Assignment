@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
@@ -25,7 +22,7 @@ namespace ConsoleApp1
             {
                 string[] devInfo = data[i].Split(',');
                 SoftwareDeveloper dev = new SoftwareDeveloper();
-                dev.SetName(devInfo[0]);
+                dev.SetName(devInfo[0]); 
                 dev.SetZipCode(devInfo[1]);
                 dev.SetPay(Double.Parse(devInfo[2]));
                 dev.SetTaxType(devInfo[3]);
@@ -53,14 +50,6 @@ namespace ConsoleApp1
         private static double taxRate = 0.07;
 
         public SoftwareDeveloper() { }
-
-        public SoftwareDeveloper(string name, string zipCode, double grossPay)
-        {
-            this.name = name;
-            this.zipCode = zipCode;
-            this.grossPay = grossPay;
-            taxes = grossPay * taxRate;
-        }
 
         public string GetName()
         {
