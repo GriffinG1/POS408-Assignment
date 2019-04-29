@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,56 +11,31 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            // Reads data.txt into program
+            string[] data = File.ReadAllLines(@"data.txt");
+
             // Sets total devs for the program to use.
-            int TOTAL_DEVS = 3;
+            int TOTAL_DEVS = data.Length;
 
             Console.WriteLine("Welcome!\n");
             
-            Dictionary<int, SoftwareDeveloper> devs = new Dictionary<int, SoftwareDeveloper>();
+            List<SoftwareDeveloper> devs = new List<SoftwareDeveloper>();
 
-            for (int i = 1; i <= TOTAL_DEVS; i++) // Fills the Dict devs with a TOTAL_DEVS amount of SoftwareDeveloper objects, while taking inputs for them
+            for (int i = 0; i < TOTAL_DEVS; i++) // Fills the List devs with a TOTAL_DEVS amount of SoftwareDeveloper objects, while filling them
             {
+                string[] devInfo = data[i].Split(',');
                 SoftwareDeveloper dev = new SoftwareDeveloper();
-                Console.WriteLine($"Name for dev #{i}:");
-                string name = Console.ReadLine();
-                while (name == "") // Loops until user enters a name
-                {
-                    Console.WriteLine($"Name for dev #{i}:");
-                    name = Console.ReadLine();
-                }
-                dev.SetName(name);
-                Console.WriteLine($"Zip code for dev #{i}:");
-                string zipCode = Console.ReadLine();
-                while (zipCode.Length < 5) // Loops until user enters a zip code greater than or equal to 5 characters
-                {
-                    Console.WriteLine($"Zip code for dev #{i}:");
-                    zipCode = Console.ReadLine();
-                }
-                dev.SetZipCode(zipCode);
-                Console.WriteLine($"Gross monthly pay for dev #{i}:");
-                double grossPay;
-                bool hasPay = double.TryParse(Console.ReadLine(), out grossPay);
-                while (!hasPay || grossPay < 0) // Loops until user enters a valid pay amount
-                {
-                    Console.WriteLine($"Gross monthly pay for dev #{i}:");
-                    hasPay = double.TryParse(Console.ReadLine(), out grossPay);
-                }
-                dev.SetPay(grossPay);
-                Console.WriteLine($"Employee type - 1)W2 or 2)1099 - for dev #{i}:");
-                string taxType = Console.ReadLine();
-                while (!(taxType == "1") && !(taxType == "2")) // Loops until user enters valid employee type choice
-                {
-                    Console.WriteLine($"Employee type - 1)W2 or 2)1099 - for dev #{i}:");
-                    taxType = Console.ReadLine();
-                }
-                if (taxType == "1") dev.SetTaxType("W2"); else dev.SetTaxType("1099");
-                devs.Add(i, dev);
+                dev.SetName(devInfo[0]);
+                dev.SetZipCode(devInfo[1]);
+                dev.SetPay(Double.Parse(devInfo[2]));
+                dev.SetTaxType(devInfo[3]);
+                devs.Add(dev);
                 Console.WriteLine();
                 
             }
-            for (int i = 1; i <= TOTAL_DEVS; i++)
+            foreach (SoftwareDeveloper dev in devs)
             {
-                devs[i].PrintData();
+                dev.PrintData();
             }
             
             Console.WriteLine("Press the enter key to close the program.");
