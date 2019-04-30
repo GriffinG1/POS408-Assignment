@@ -27,7 +27,6 @@ namespace ConsoleApp1
                 dev.SetPay(Double.Parse(devInfo[2]));
                 dev.SetTaxType(devInfo[3]);
                 devs.Add(dev);
-                Console.WriteLine();
                 
             }
             foreach (SoftwareDeveloper dev in devs)
